@@ -35,7 +35,7 @@ INNER JOIN constructors AS c
 INNER JOIN races AS ra
     ON ps.raceId = ra.raceId
 WHERE ps.milliseconds IS NOT NULL
-    AND ps.milliseconds BETWEEN 1000 AND 10000
+    AND ps.milliseconds BETWEEN 10000 AND 60000
 GROUP BY
     c.constructorId,
     c.name
