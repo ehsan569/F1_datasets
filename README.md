@@ -42,3 +42,29 @@ Ferrari, Mercedes, and McLaren also appeared in the top five, suggesting that le
 
 **Important limitation:**  
 The dataset appears to record broader pit stop event duration rather than the official stationary tyre-change time shown during Formula 1 broadcasts. Therefore, the results should be interpreted as relative pit stop duration performance within the dataset, not official tyre-change rankings.
+
+
+### Analysis 02: Rolling Average Pit Stop Trend — Red Bull vs Mercedes, 2020
+
+**Business question:**  
+Did Red Bull and Mercedes get faster or slower at recorded pit stop durations as the 2020 season progressed?
+
+**Tables used:**  
+`pit_stops`, `results`, `constructors`, `races`
+
+**SQL techniques used:**  
+`AVG() OVER`, `PARTITION BY`, `ORDER BY`, `ROWS BETWEEN`, `CTE`, `ROW_NUMBER()`, `COUNT() OVER`, conditional aggregation
+
+This analysis used a rolling average to compare how recorded pit stop duration changed throughout the 2020 season for Red Bull and Mercedes. The rolling average was calculated separately for each constructor using `PARTITION BY`, with pit stops ordered by race round, lap, stop number, and driver ID.
+
+| Constructor | First rolling average seconds | Final rolling average seconds | Change |
+|---|---:|---:|---:|
+| Mercedes | 21.85 | 25.27 | +3.42 |
+| Red Bull | 20.94 | 24.76 | +3.82 |
+
+The results show that both constructors had higher final rolling averages than their first recorded rolling averages. Mercedes increased from **21.85 seconds** to **25.27 seconds**, while Red Bull increased from **20.94 seconds** to **24.76 seconds**.
+
+This suggests that, within the dataset, both teams’ recorded pit stop durations became slower on average as the 2020 season progressed. Red Bull started with a lower recorded pit stop duration than Mercedes and also ended with a lower final rolling average, but both teams followed an upward trend.
+
+**Important limitation:**  
+During validation, a data integrity issue was identified where some Red Bull 2020 `driverId` values did not match records in the `drivers` table. To avoid excluding valid Red Bull pit stop records, this analysis focused on constructor-level trends and used `driverId` directly instead of joining to driver names.
