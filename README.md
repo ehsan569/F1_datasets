@@ -4,7 +4,9 @@
 
 This project analyses Formula 1 race performance data using MySQL. The aim is to demonstrate SQL querying, data cleaning, exploratory analysis, and business-style insight generation for a data analyst portfolio.
 
-The dataset used is the Formula 1 World Championship dataset from Kaggle, covering race data from 1950 to 2024.
+## Dataset Coverage Note
+
+The full dataset covers Formula 1 race data from **1950 to 2024**. However, not every table covers the full period. For example, the `pit_stops` table only contains recorded pit stop data from **2011 onwards**. Therefore, all pit stop analyses in this project are limited to the **2011–2024** period.
 
 ## Tools Used
 
@@ -17,7 +19,7 @@ The dataset used is the Formula 1 World Championship dataset from Kaggle, coveri
 
 ### Analysis 01: Recorded Pit Stop Duration by Constructor
 
-**Business question:**  
+Business question: 
 Which Formula 1 constructors achieved the lowest average recorded pit stop duration in the dataset?
 
 **Tables used:**  
@@ -68,3 +70,33 @@ This suggests that, within the dataset, both teams’ recorded pit stop duration
 
 **Important limitation:**  
 During validation, a data integrity issue was identified where some Red Bull 2020 `driverId` values did not match records in the `drivers` table. To avoid excluding valid Red Bull pit stop records, this analysis focused on constructor-level trends and used `driverId` directly instead of joining to driver names.
+
+### Analysis 03: Pit Stop Consistency by Constructor
+
+**Business question:**  
+Which Formula 1 constructors were the most consistent in recorded pit stop duration, not just the fastest on average?
+
+**Tables used:**  
+`pit_stops`, `results`, `constructors`, `races`
+
+**SQL techniques used:**  
+`INNER JOIN`, `GROUP BY`, `COUNT()`, `AVG()`, `STDDEV()`, `MIN()`, `MAX()`, `ROUND()`, `HAVING`, filtering
+
+Although the full Kaggle Formula 1 dataset covers race data from **1950 to 2024**, the `pit_stops` table only contains recorded pit stop data from **2011 onwards**. Therefore, this pit stop consistency analysis covers the period from **2011 to 2024**, not the full 1950–2024 dataset range.
+
+This analysis compared constructor pit stop consistency using the standard deviation of recorded pit stop durations. While average pit stop duration shows which constructors were fastest overall, standard deviation helps identify which constructors delivered more predictable and consistent pit stop performance.
+
+After filtering for valid recorded pit stop durations between **10 and 60 seconds** and requiring at least **50 recorded pit stops** per constructor, **Renault had the lowest standard deviation at 3.23 seconds**, making it the most consistent constructor in this analysis.
+
+| Rank | Constructor | Avg pit stop seconds | Std dev seconds | Total pit stops | Seasons |
+|---:|---|---:|---:|---:|---|
+| 1 | Renault | 24.51 | 3.23 | 138 | 2011–2020 |
+| 2 | Force India | 24.08 | 3.58 | 325 | 2011–2018 |
+| 3 | Ferrari | 23.67 | 3.65 | 892 | 2011–2024 |
+| 4 | Red Bull | 23.41 | 3.68 | 924 | 2011–2024 |
+| 5 | Lotus F1 | 23.65 | 3.71 | 173 | 2012–2015 |
+
+The results show that **Red Bull had the fastest average recorded pit stop duration**, but **Renault had the most consistent recorded pit stop duration** based on standard deviation. This shows that average speed and consistency are different performance measures.
+
+**Important limitation:**  
+The `pit_stops.milliseconds` field appears to represent broader recorded pit stop duration rather than the official stationary tyre-change time shown during Formula 1 broadcasts. Therefore, this analysis should be interpreted as a comparison of recorded pit stop duration consistency within the dataset, not as an official ranking of tyre-change speed.
