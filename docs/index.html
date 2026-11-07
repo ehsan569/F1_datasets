@@ -186,7 +186,7 @@ const pill=s=>`<span class="pill ${s[0]}">${s[1]}</span>`;
 
 function renderBanner(){
   const F=totals("f"),A=totals("a");
-  $("banner").innerHTML=`<span class="tag">Read first</span><div>The README tables are reproduced by counting only stops made by cars that were classified <b>Finished</b> in the race: <b>${F.n.toLocaleString()}</b> of the <b>${A.n.toLocaleString()}</b> stops (10 to 60 s) in the repo CSVs. The README does not say this. The default view here follows the README; switch to <b>All recorded stops</b> to see the full data.</div>`;
+  $("banner").innerHTML=`<span class="tag">Read first</span><div>The README tables are reproduced by counting only stops made by cars that were classified <b>Finished</b> in the race: <b>${F.n.toLocaleString()}</b> of the <b>${A.n.toLocaleString()}</b> stops (10 to 60 s) in the repo CSVs. The default view follows the README; switch to <b>All recorded stops</b> to see the full data. The SQL files in the repo have no Finished filter, so running them on the CSVs gives the all-stops numbers.</div>`;
 }
 function renderChips(S){
   const order=S.map(d=>d.c).sort((a,b)=>CONS[a].localeCompare(CONS[b]));
@@ -279,7 +279,7 @@ function cmp3(){
 function renderLim(){
   const A=totals("a"),F=totals("f");
   const items=[
-   ['warn','Unstated filter',`The README figures match only when stops by cars that did not finish are left out (${F.n.toLocaleString()} of ${A.n.toLocaleString()} stops, 55%). Retirements often follow damage or an unusual stop, so including them changes some results. Add this filter to the README text, or remove it from the SQL.`],
+   ['warn','Filter not in the SQL',`The README figures match only when stops by cars that did not finish are left out (${F.n.toLocaleString()} of ${A.n.toLocaleString()} stops, 55%). The README now says so, but the queries in sql_queries do not filter on status, so running them on the CSVs in /data returns the all-stops numbers. The MySQL results table probably holds fewer rows than the CSV. Add AND res.statusId = 1 to the queries, or re-import results.csv in full.`],
    ['warn','Small count gaps',`Red Bull has 926 stops here against 924 in the README, Mercedes 926 against 925, and Force India 322 against 325 (std dev 3.57 against 3.58). Averages agree to within 0.01 s. I cannot see why from the CSV files, so these three gaps are unexplained.`],
    ['warn','Red Bull driver IDs',`The README says some Red Bull 2020 driver IDs are missing from the drivers table. In the repo CSVs every Red Bull driver ID is present. That problem may come from the MySQL import and cannot be reproduced from the files.`],
    ['warn','Conclusion changes with the filter',`Analysis 01 still has Red Bull fastest either way. Analysis 03 does not: with all stops Mercedes is the most consistent and Renault is no longer first.`],
