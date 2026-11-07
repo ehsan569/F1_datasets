@@ -1,4 +1,9 @@
 # F1 Race Performance Analysis using MySQL
+## Interactive Dashboard
+
+[**Open the live dashboard**](https://ehsan569.github.io/F1_datasets/): filter by season, compare teams, and switch between the README basis (finished cars only) and all recorded stops.
+
+[![Dashboard preview](docs/dashboard-preview.png)](https://ehsan569.github.io/F1_datasets/)
 
 ## Project Overview
 
@@ -16,6 +21,7 @@ The full dataset covers Formula 1 race data from **1950 to 2024**. However, not 
 - Kaggle Formula 1 dataset
 
 ## Key SQL Analyses
+Pit stop analyses include only stops made by cars classified as Finished, 5,981 of 10,854 stops between 10 and 60 seconds.
 
 ### Analysis 01: Recorded Pit Stop Duration by Constructor
 
