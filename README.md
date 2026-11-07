@@ -22,7 +22,7 @@ The full dataset covers Formula 1 race data from **1950 to 2024**. However, not 
 
 ## Key SQL Analyses
 Pit stop analyses include only stops made by cars classified as Finished, 5,981 of 10,854 stops between 10 and 60 seconds.
-
+Figures reflect the results table as loaded in my MySQL database. The SQL files in sql_queries do not apply a status filter themselves, so running them on the raw CSVs in data gives the all-stops numbers.
 ### Analysis 01: Recorded Pit Stop Duration by Constructor
 
 Business question: 
